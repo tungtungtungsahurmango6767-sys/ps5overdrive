@@ -62,14 +62,9 @@ def main():
             raise RuntimeError("SDK archive layout differs; set --payload-sdk")
     env = dict(os.environ, LLVM_CONFIG=str(llvm / "llvm-config"),
                PS5_CLANG=str(llvm / "clang"), PS5_PAYLOAD_SDK=str(sdk), USE_CCACHE="0")
-    archive = args.opengl_archive or DEPS / "ps5-opengl-sdk-1.0.0.tar.gz"
-    if not archive.exists():
-        gl_src = DEPS / "ps5-opengl-src"
-        if not gl_src.exists():
-                        run(["git", "clone", "--depth", "1",
-                 "https://github.com/darkxex/ps5-opengl.git", gl_src])
-        run(["make", "sdk"], env=env, cwd=gl_src)
-        (gl_src / "dist/ps5-opengl-sdk-1.0.0.tar.gz").replace(archive)
+        archive = args.opengl_archive or DEPS / "ps5-opengl-sdk-1.0.0.tar.gz"
+    fetch("https://github.com/JVK3R/ps5-opengl/releases/download/v1.0.0/ps5-opengl-sdk-1.0.0.tar.gz",
+          archive, GL_HASH)
     gl = DEPS / "ps5-opengl-sdk-1.0.0/sdk"
     if not gl.exists():
         with tarfile.open(archive) as package:
