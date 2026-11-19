@@ -62,7 +62,7 @@ def main():
             raise RuntimeError("SDK archive layout differs; set --payload-sdk")
     env = dict(os.environ, LLVM_CONFIG=str(llvm / "llvm-config"),
                PS5_CLANG=str(llvm / "clang"), PS5_PAYLOAD_SDK=str(sdk), USE_CCACHE="0")
-        archive = args.opengl_archive or DEPS / "ps5-opengl-sdk-1.0.0.tar.gz"
+    archive = args.opengl_archive or DEPS / "ps5-opengl-sdk-1.0.0.tar.gz"
     fetch("https://github.com/JVK3R/ps5-opengl/releases/download/v1.0.0/ps5-opengl-sdk-1.0.0.tar.gz",
           archive, GL_HASH)
     gl = DEPS / "ps5-opengl-sdk-1.0.0/sdk"
